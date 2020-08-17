@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { parseSessionData } from './parser';
+import { SplitProfit } from './SplitProfit'
 
 function App() {
   const [text, setText] = useState('');
@@ -8,12 +9,10 @@ function App() {
   return (
     <div className="App">
       <div>
+        <h3>Analyser</h3>
         <textarea onChange={e => setText(e.target.value)}></textarea>
       </div>
-      <div>
-        <p>Profit per person: {result.profitPerPerson}</p>
-        {result.payments && result.payments.map(payment => <p>{payment.from} should give {payment.amount} to {payment.to}</p>)}
-      </div>
+      <SplitProfit participants={result}></SplitProfit>
     </div>
   );
 }

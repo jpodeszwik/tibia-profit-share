@@ -1,11 +1,11 @@
-interface Participant {
+export interface Participant {
     name: string,
     loot: number,
     supplies: number,
     balance: number,
     damage: number
     healing: number
-}
+};
 
 interface ParticipantWithBalance {
     name: string,
@@ -18,7 +18,7 @@ interface Payment {
     amount: number
 }
 
-interface Result {
+export interface Result {
     profitPerPerson: number,
     payments: Payment[]
 }
@@ -39,9 +39,13 @@ const parsePlayer = (arr: string[]): Participant => ({
     healing: findValue(arr, 'Healing')
 })
 
-const splitProfit = (participants: Participant[]): Result => {
+export const splitProfit = (participants: Participant[]): Result => {
+    if (participants.length === 0) {
+        return { profitPerPerson: 0, payments: [] };
+    }
+
     const totalProfit = participants.map(participant => participant.balance).reduce((a, b) => a + b, 0);
-    const profitPerPerson = Math.floor(totalProfit / participants.length);
+    const profitPerPerson = Math.floor(totalProfit / participants.length);;
 
     const balances = participants.map(p => ({ name: p.name, balance: p.balance - profitPerPerson }));
 
@@ -70,9 +74,9 @@ const splitProfit = (participants: Participant[]): Result => {
     return { profitPerPerson, payments }
 }
 
-export const parseSessionData = (input: string): Result => {
+export const parseSessionData = (input: string): Participant[] => {
     if (!input) {
-        return { profitPerPerson: 0, payments: [] };
+        return [];
     }
 
     const lines = input.split('\n');
@@ -81,10 +85,8 @@ export const parseSessionData = (input: string): Result => {
     partitions.shift();
 
     if (partitions.length === 0) {
-        return { profitPerPerson: 0, payments: [] };
+        return [];
     }
 
-    const participants = partitions.map(parsePlayer);
-
-    return splitProfit(participants);
+    return partitions.map(parsePlayer);
 }
