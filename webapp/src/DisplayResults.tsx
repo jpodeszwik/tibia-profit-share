@@ -10,7 +10,7 @@ function DisplayResults({ result }: DisplayResultsProps) {
     return <div>
         <h3>Result</h3>
         <p>Profit per person: {result.profitPerPerson}</p>
-        {result.payments && result.payments.map(payment => <p>{payment.from} should give {payment.amount} to {payment.to}</p>)}
+        {result.payments && result.payments.map(payment => <p>{payment.from} should transfer {payment.amount} to {payment.to}</p>)}
     </div>
 }
 
